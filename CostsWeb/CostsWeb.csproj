@@ -160,14 +160,30 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
+    <Compile Include="Controllers\CostsJournalsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503271946309_InitialCreate.cs" />
+    <Compile Include="Migrations\201503271946309_InitialCreate.Designer.cs">
+      <DependentUpon>201503271946309_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503280732089_init.cs" />
+    <Compile Include="Migrations\201503280732089_init.Designer.cs">
+      <DependentUpon>201503280732089_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503280734061_add costs journal model.cs" />
+    <Compile Include="Migrations\201503280734061_add costs journal model.Designer.cs">
+      <DependentUpon>201503280734061_add costs journal model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CostsContext.cs" />
     <Compile Include="Models\CostsInitializer.cs" />
+    <Compile Include="Models\CostsJournal.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -234,6 +250,11 @@
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\CostsJournals\Create.cshtml" />
+    <Content Include="Views\CostsJournals\Delete.cshtml" />
+    <Content Include="Views\CostsJournals\Details.cshtml" />
+    <Content Include="Views\CostsJournals\Edit.cshtml" />
+    <Content Include="Views\CostsJournals\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -244,6 +265,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201503271946309_InitialCreate.resx">
+      <DependentUpon>201503271946309_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503280732089_init.resx">
+      <DependentUpon>201503280732089_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503280734061_add costs journal model.resx">
+      <DependentUpon>201503280734061_add costs journal model.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
