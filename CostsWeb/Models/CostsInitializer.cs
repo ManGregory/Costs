@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CostsWeb.Models
 {
-    public class CostsInitializer : DropCreateDatabaseAlways<CostsContext>
+    public class CostsInitializer : DropCreateDatabaseIfModelChanges<CostsContext>
     {
 
     }

@@ -16,12 +16,20 @@ namespace CostsWeb.Models
         [Required]
         [DisplayName("Дата")]
         public DateTime? Date { get; set; }
+        [DisplayName("Название категории")]
         public int? CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
         [Required]
         [DisplayName("Сумма")]
         public decimal Sum { get; set; }
+        [DisplayName("Примечание")]
         public string Note { get; set; }
+
+        [NotMapped]
+        public string DateForShow
+        {
+            get { return Date.HasValue ? Date.Value.ToString("yyyy-MM-dd") : null; }          
+        }
     }
 }
