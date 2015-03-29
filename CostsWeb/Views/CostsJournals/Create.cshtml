@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Добавление";
+    HtmlHelper.ClientValidationEnabled = false;
 }
 
 <h2>Добавить</h2>
@@ -57,7 +58,8 @@
 }
 
 <div>
-    @Html.ActionLink("Журнал расходов", "Index")
+    @Html.ActionLink("Журнал расходов", "Index") | 
+    @Html.ActionLink("Добавить еще", "Create")
 </div>
 
 @section Scripts {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CostsWeb.Helper;
 using CostsWeb.Models;
 
 namespace CostsWeb.Controllers
@@ -54,7 +55,7 @@ namespace CostsWeb.Controllers
             {
                 db.CostsJournal.Add(costsJournal);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create").Success("Данные успешно сохраненны");
             }
 
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", costsJournal.CategoryId);

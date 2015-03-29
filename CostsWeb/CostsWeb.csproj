@@ -166,6 +166,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\FlashMessageExtension.cs" />
     <Compile Include="Migrations\201503271946309_InitialCreate.cs" />
     <Compile Include="Migrations\201503271946309_InitialCreate.Designer.cs">
       <DependentUpon>201503271946309_InitialCreate.cs</DependentUpon>
@@ -177,6 +178,18 @@
     <Compile Include="Migrations\201503280734061_add costs journal model.cs" />
     <Compile Include="Migrations\201503280734061_add costs journal model.Designer.cs">
       <DependentUpon>201503280734061_add costs journal model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503291257325_change sum type.cs" />
+    <Compile Include="Migrations\201503291257325_change sum type.Designer.cs">
+      <DependentUpon>201503291257325_change sum type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503291300384_change date type.cs" />
+    <Compile Include="Migrations\201503291300384_change date type.Designer.cs">
+      <DependentUpon>201503291300384_change date type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503291315422_change sum type 2.cs" />
+    <Compile Include="Migrations\201503291315422_change sum type 2.Designer.cs">
+      <DependentUpon>201503291315422_change sum type 2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -202,6 +215,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jQuery.flashMessage.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -255,6 +270,7 @@
     <Content Include="Views\CostsJournals\Details.cshtml" />
     <Content Include="Views\CostsJournals\Edit.cshtml" />
     <Content Include="Views\CostsJournals\Index.cshtml" />
+    <Content Include="Views\Shared\_Flash.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -275,6 +291,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503280734061_add costs journal model.resx">
       <DependentUpon>201503280734061_add costs journal model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503291257325_change sum type.resx">
+      <DependentUpon>201503291257325_change sum type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503291300384_change date type.resx">
+      <DependentUpon>201503291300384_change date type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503291315422_change sum type 2.resx">
+      <DependentUpon>201503291315422_change sum type 2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

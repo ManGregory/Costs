@@ -15,6 +15,8 @@ namespace CostsWeb.Models
         public int Id { get; set; }
         [Required]
         [DisplayName("Дата")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString="{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
         [DisplayName("Название категории")]
         public int? CategoryId { get; set; }
