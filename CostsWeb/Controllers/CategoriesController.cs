@@ -17,8 +17,7 @@ namespace CostsWeb.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            var categories = db.Categories.Include(c => c.Parent);
-            return View(categories.ToList());
+            return View(db.Categories.ToList());
         }
 
         // GET: Categories/Details/5
@@ -39,7 +38,6 @@ namespace CostsWeb.Controllers
         // GET: Categories/Create
         public ActionResult Create()
         {
-            ViewBag.ParentId = new SelectList(db.Categories, "Id", "Name");
             return View();
         }
 
@@ -48,7 +46,7 @@ namespace CostsWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,ParentId")] Category category)
+        public ActionResult Create([Bind(Include = "Id,Name")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +55,6 @@ namespace CostsWeb.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ParentId = new SelectList(db.Categories, "Id", "Name", category.ParentId);
             return View(category);
         }
 
@@ -73,7 +70,6 @@ namespace CostsWeb.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ParentId = new SelectList(db.Categories, "Id", "Name", category.ParentId);
             return View(category);
         }
 
@@ -82,7 +78,7 @@ namespace CostsWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,ParentId")] Category category)
+        public ActionResult Edit([Bind(Include = "Id,Name")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +86,6 @@ namespace CostsWeb.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ParentId = new SelectList(db.Categories, "Id", "Name", category.ParentId);
             return View(category);
         }
 

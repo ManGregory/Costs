@@ -13,18 +13,29 @@ namespace CostsWeb.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        
         [Required]
         [DisplayName("Дата")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString="{0:yyyy-MM-dd}")]
         public DateTime? Date { get; set; }
+        
         [DisplayName("Название категории")]
         public int? CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
+
+        [DisplayName("Название подкатегории")]
+        public int? SubCategoryId { get; set; }
+
+        [DisplayName("Название подкатегории")]
+        [ForeignKey("SubCategoryId")]
+        public Category SubCategory { get; set; }
+
         [Required]
         [DisplayName("Сумма")]
         public decimal Sum { get; set; }
+        
         [DisplayName("Примечание")]
         public string Note { get; set; }
 

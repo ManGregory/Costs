@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -18,8 +19,5 @@ namespace CostsWeb.Models
         [Required]
         [Display(Name="Название категории")]
         public string Name { get; set; }
-
-        public int? ParentId { get; set; }
-        public Category Parent { get; set; }
     }
 }

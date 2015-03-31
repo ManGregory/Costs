@@ -13,10 +13,7 @@ namespace CostsWeb.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>()
-                .HasOptional(c => c.Parent)
-                .WithMany()
-                .HasForeignKey(c => c.ParentId);
+
         }
     }
 }

@@ -15,10 +15,16 @@ namespace CostsWeb.Controllers
     {
         private CostsContext db = new CostsContext();
 
+        private void SetViewBag(int? categoryId = null, int? subCategoryId = null)
+        {
+            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", categoryId);
+            ViewBag.SubCategoryId = new SelectList(db.Categories, "Id", "Name", subCategoryId);
+        }
+
         // GET: CostsJournals
         public ActionResult Index()
         {
-            var costsJournal = db.CostsJournal.Include(c => c.Category);
+            var costsJournal = db.CostsJournal.Include(c => c.Category).Include(c => c.SubCategory);
             return View(costsJournal.ToList());
         }
 
@@ -29,7 +35,8 @@ namespace CostsWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CostsJournal costsJournal = db.CostsJournal.Find(id);
+            CostsJournal costsJournal =
+                db.CostsJournal.Include(c => c.Category).Include(c => c.SubCategory).FirstOrDefault(c => c.Id == id);
             if (costsJournal == null)
             {
                 return HttpNotFound();
@@ -40,7 +47,7 @@ namespace CostsWeb.Controllers
         // GET: CostsJournals/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
+            SetViewBag();
             return View();
         }
 
@@ -49,16 +56,15 @@ namespace CostsWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date,CategoryId,Sum,Note")] CostsJournal costsJournal)
+        public ActionResult Create([Bind(Include = "Id,Date,CategoryId,SubCategoryId,Sum,Note")] CostsJournal costsJournal)
         {
             if (ModelState.IsValid)
             {
                 db.CostsJournal.Add(costsJournal);
                 db.SaveChanges();
-                return RedirectToAction("Create").Success("Данные успешно сохраненны");
+                return RedirectToAction("Create").Success("Запись успешно создана");
             }
-
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", costsJournal.CategoryId);
+            SetViewBag(costsJournal.CategoryId, costsJournal.SubCategoryId);
             return View(costsJournal);
         }
 
@@ -74,7 +80,7 @@ namespace CostsWeb.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", costsJournal.CategoryId);
+            SetViewBag(costsJournal.CategoryId, costsJournal.SubCategoryId);
             return View(costsJournal);
         }
 
@@ -83,15 +89,15 @@ namespace CostsWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date,CategoryId,Sum,Note")] CostsJournal costsJournal)
+        public ActionResult Edit([Bind(Include = "Id,Date,CategoryId,SubCategoryId,Sum,Note")] CostsJournal costsJournal)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(costsJournal).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index").Success("Данные успешно сохраненны"); ;
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", costsJournal.CategoryId);
+            SetViewBag(costsJournal.CategoryId, costsJournal.SubCategoryId);
             return View(costsJournal);
         }
 
@@ -102,7 +108,8 @@ namespace CostsWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CostsJournal costsJournal = db.CostsJournal.Find(id);
+            CostsJournal costsJournal =
+                db.CostsJournal.Include(c => c.Category).Include(c => c.SubCategory).FirstOrDefault(c => c.Id == id);
             if (costsJournal == null)
             {
                 return HttpNotFound();
@@ -118,7 +125,7 @@ namespace CostsWeb.Controllers
             CostsJournal costsJournal = db.CostsJournal.Find(id);
             db.CostsJournal.Remove(costsJournal);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index").Success("Данные успешно удалены");
         }
 
         protected override void Dispose(bool disposing)
