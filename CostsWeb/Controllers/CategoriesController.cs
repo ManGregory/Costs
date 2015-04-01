@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CostsWeb.Helper;
 using CostsWeb.Models;
 
 namespace CostsWeb.Controllers
@@ -52,7 +53,7 @@ namespace CostsWeb.Controllers
             {
                 db.Categories.Add(category);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create").Success("Запись успешно добавлена");
             }
 
             return View(category);
@@ -84,7 +85,7 @@ namespace CostsWeb.Controllers
             {
                 db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index").Success("Данные успешно сохранены");
             }
             return View(category);
         }
@@ -112,7 +113,7 @@ namespace CostsWeb.Controllers
             Category category = db.Categories.Find(id);
             db.Categories.Remove(category);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index").Success("Запись успешно удалена");
         }
 
         protected override void Dispose(bool disposing)
