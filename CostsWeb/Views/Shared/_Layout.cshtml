@@ -18,13 +18,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Учет расходов", "Index", "CostsJournals", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Учет расходов", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Журнал", "Index", "CostsJournals")</li>                    
-                    <li>@Html.ActionLink("Категории", "Index", "Categories")</li>
-                    <li>@Html.ActionLink("Отчеты", "Index", "Categories")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Журнал", "Index", "CostsJournals")</li>
+                        <li>@Html.ActionLink("Категории", "Index", "Categories")</li>
+                        <li>@Html.ActionLink("Отчеты", "Index", "Dashboard")</li>
+                    }
                     <li>@Html.ActionLink("О программе", "About", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

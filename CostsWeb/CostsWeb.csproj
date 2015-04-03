@@ -161,6 +161,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CostsJournalsController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -194,6 +195,26 @@
     <Compile Include="Migrations\201503311718345_change category.cs" />
     <Compile Include="Migrations\201503311718345_change category.Designer.cs">
       <DependentUpon>201503311718345_change category.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504021628005_add users table reference to costs journal.cs" />
+    <Compile Include="Migrations\201504021628005_add users table reference to costs journal.Designer.cs">
+      <DependentUpon>201504021628005_add users table reference to costs journal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504031705079_add users table reference to categories.cs" />
+    <Compile Include="Migrations\201504031705079_add users table reference to categories.Designer.cs">
+      <DependentUpon>201504031705079_add users table reference to categories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504031711571_make user id reference optional.cs" />
+    <Compile Include="Migrations\201504031711571_make user id reference optional.Designer.cs">
+      <DependentUpon>201504031711571_make user id reference optional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504031716219_make user id reference optional2.cs" />
+    <Compile Include="Migrations\201504031716219_make user id reference optional2.Designer.cs">
+      <DependentUpon>201504031716219_make user id reference optional2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504031829450_reference in user table.cs" />
+    <Compile Include="Migrations\201504031829450_reference in user table.Designer.cs">
+      <DependentUpon>201504031829450_reference in user table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -275,6 +296,7 @@
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -307,6 +329,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503311718345_change category.resx">
       <DependentUpon>201503311718345_change category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504021628005_add users table reference to costs journal.resx">
+      <DependentUpon>201504021628005_add users table reference to costs journal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504031705079_add users table reference to categories.resx">
+      <DependentUpon>201504031705079_add users table reference to categories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504031711571_make user id reference optional.resx">
+      <DependentUpon>201504031711571_make user id reference optional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504031716219_make user id reference optional2.resx">
+      <DependentUpon>201504031716219_make user id reference optional2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504031829450_reference in user table.resx">
+      <DependentUpon>201504031829450_reference in user table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
