@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CostsWeb.Helper;
 using CostsWeb.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CostsWeb.Controllers
 {
@@ -15,10 +16,16 @@ namespace CostsWeb.Controllers
     {
         private CostsContext db = new CostsContext();
 
+        private string CurrentUserId
+        {
+            get { return User.Identity.GetUserId(); }
+        }
+
         // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            var userId = CurrentUserId;
+            return View(db.Categories.Where(c => c.UserId == userId).ToList());
         }
 
         // GET: Categories/Details/5
@@ -51,6 +58,7 @@ namespace CostsWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                category.UserId = CurrentUserId;
                 db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Create").Success("Запись успешно добавлена");

@@ -7,13 +7,13 @@ namespace CostsWeb.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class addcostsjournalmodel : IMigrationMetadata
+    public sealed partial class init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addcostsjournalmodel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201503280734061_add costs journal model"; }
+            get { return "201504041240231_init"; }
         }
         
         string IMigrationMetadata.Source

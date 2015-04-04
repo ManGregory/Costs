@@ -38,11 +38,10 @@ namespace CostsWeb.Models
         
         [DisplayName("Примечание")]
         public string Note { get; set; }
+       
+        public string UserId { get; set; }
 
-        [NotMapped]
-        public string DateForShow
-        {
-            get { return Date.HasValue ? Date.Value.ToString("yyyy-MM-dd") : null; }          
-        }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
     }
 }

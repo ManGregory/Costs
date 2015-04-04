@@ -1,8 +1,9 @@
 ﻿using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CostsWeb.Models
 {
-    public class CostsContext : DbContext
+    public class CostsContext : IdentityDbContext<ApplicationUser>
     {
         public CostsContext() : base("DefaultConnection")
         {            
@@ -11,9 +12,9 @@ namespace CostsWeb.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<CostsJournal> CostsJournal { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        public static CostsContext Create()
         {
-
+            return new CostsContext();
         }
     }
 }

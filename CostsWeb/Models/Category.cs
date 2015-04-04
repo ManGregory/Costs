@@ -15,7 +15,11 @@ namespace CostsWeb.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
+
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
+
         [Required]
         [Display(Name="Название категории")]
         public string Name { get; set; }

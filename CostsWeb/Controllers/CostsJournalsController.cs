@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using CostsWeb.Helper;
 using CostsWeb.Models;
+using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CostsWeb.Controllers
 {
@@ -17,15 +20,24 @@ namespace CostsWeb.Controllers
 
         private void SetViewBag(int? categoryId = null, int? subCategoryId = null)
         {
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", categoryId);
-            ViewBag.SubCategoryId = new SelectList(db.Categories, "Id", "Name", subCategoryId);
+            ViewBag.CategoryId = new SelectList(db.Categories.Where(c => c.UserId == CurrentUserId), "Id", "Name", categoryId);
+            ViewBag.SubCategoryId = new SelectList(db.Categories.Where(c => c.UserId == CurrentUserId), "Id", "Name", subCategoryId);
         }
 
         // GET: CostsJournals
         public ActionResult Index()
         {
-            var costsJournal = db.CostsJournal.Include(c => c.Category).Include(c => c.SubCategory);
+            var userId = CurrentUserId;
+            var costsJournal =
+                db.CostsJournal.Include(c => c.Category)
+                    .Include(c => c.SubCategory)
+                    .Where(c => c.User.Id == userId);
             return View(costsJournal.ToList());
+        }
+
+        private string CurrentUserId
+        {
+            get { return User.Identity.GetUserId(); }
         }
 
         // GET: CostsJournals/Details/5
@@ -60,6 +72,7 @@ namespace CostsWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                costsJournal.UserId = CurrentUserId;
                 db.CostsJournal.Add(costsJournal);
                 db.SaveChanges();
                 return RedirectToAction("Create").Success("Запись успешно создана");

@@ -10,7 +10,6 @@ namespace CostsWeb.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "CostsWeb.Models.CostsContext";
         }
 
         protected override void Seed(CostsWeb.Models.CostsContext context)
