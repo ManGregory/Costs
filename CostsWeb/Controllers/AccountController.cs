@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -403,6 +404,64 @@ namespace CostsWeb.Controllers
         {
             return View();
         }
+
+        // GET: Categories/Delete/5
+        /*public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Category category = db.Categories.Find(id);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
+
+        // POST: /Users/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var user = await _userManager.FindByIdAsync(id);
+                var logins = user.Logins;
+
+                foreach (var login in logins.ToList())
+                {
+                    await
+                        _userManager.RemoveLoginAsync(login.UserId,
+                            new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+                }
+
+                var rolesForUser = await _userManager.GetRolesAsync(id);
+
+                if (rolesForUser.Count() > 0)
+                {
+                    foreach (var item in rolesForUser.ToList())
+                    {
+                        // item should be the name of the role
+                        var result = await _userManager.RemoveFromRoleAsync(user.Id, item);
+                    }
+                }
+
+                await _userManager.DeleteAsync(user);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+        }*/
 
         protected override void Dispose(bool disposing)
         {
