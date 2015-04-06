@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostsWeb", "CostsWeb\CostsW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostsWeb.Tests", "CostsWeb.Tests\CostsWeb.Tests.csproj", "{4C43FCC2-E0F0-4840-9239-62C4D7BFF657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportFromExcel", "ImportFromExcel\ImportFromExcel.csproj", "{2436DFB7-1BAA-48F9-9D4B-519B1B60A134}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{4C43FCC2-E0F0-4840-9239-62C4D7BFF657}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C43FCC2-E0F0-4840-9239-62C4D7BFF657}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C43FCC2-E0F0-4840-9239-62C4D7BFF657}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2436DFB7-1BAA-48F9-9D4B-519B1B60A134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2436DFB7-1BAA-48F9-9D4B-519B1B60A134}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2436DFB7-1BAA-48F9-9D4B-519B1B60A134}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2436DFB7-1BAA-48F9-9D4B-519B1B60A134}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
