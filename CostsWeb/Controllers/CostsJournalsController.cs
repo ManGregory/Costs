@@ -31,7 +31,8 @@ namespace CostsWeb.Controllers
             var costsJournal =
                 db.CostsJournal.Include(c => c.Category)
                     .Include(c => c.SubCategory)
-                    .Where(c => c.User.Id == userId);
+                    .Where(c => c.User.Id == userId)
+                    .OrderByDescending(c => c.Date);
             return View(costsJournal.ToList());
         }
 
