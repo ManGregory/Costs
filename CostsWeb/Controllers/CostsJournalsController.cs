@@ -11,12 +11,14 @@ using CostsWeb.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PagedList;
 
 namespace CostsWeb.Controllers
 {
     public class CostsJournalsController : Controller
     {
         private CostsContext db = new CostsContext();
+        private int _pageSize = 30;
 
         private void SetViewBag(int? categoryId = null, int? subCategoryId = null)
         {
@@ -25,7 +27,7 @@ namespace CostsWeb.Controllers
         }
 
         // GET: CostsJournals
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             var userId = CurrentUserId;
             var costsJournal =
@@ -33,7 +35,7 @@ namespace CostsWeb.Controllers
                     .Include(c => c.SubCategory)
                     .Where(c => c.User.Id == userId)
                     .OrderByDescending(c => c.Date);
-            return View(costsJournal.ToList());
+            return View(costsJournal.ToPagedList(page ?? 1, _pageSize));
         }
 
         private string CurrentUserId
