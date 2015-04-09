@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace CostsWeb.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         private CostsContext db = new CostsContext();

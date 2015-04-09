@@ -15,6 +15,7 @@ using PagedList;
 
 namespace CostsWeb.Controllers
 {
+    [Authorize]
     public class CostsJournalsController : Controller
     {
         private CostsContext db = new CostsContext();
