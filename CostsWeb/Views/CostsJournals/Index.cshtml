@@ -13,13 +13,13 @@
 <table class="table">
     <tr>
         <th>
-            Категория
+            @Html.ActionLink("Категория", "Index", new {sortOrder = ViewBag.CategorySortParam})
         </th>
         <th>
-            Подкатегория
+            @Html.ActionLink("Подкатегория", "Index", new { sortOrder = ViewBag.SubCategorySortParam })
         </th>
         <th>
-            Дата
+            @Html.ActionLink("Дата", "Index", new { sortOrder = ViewBag.DateSortParam })
         </th>
         <th>
             Сумма
@@ -60,4 +60,4 @@
 <br />
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort }))

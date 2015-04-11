@@ -28,15 +28,44 @@ namespace CostsWeb.Controllers
         }
 
         // GET: CostsJournals
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string sortOrder)
         {
+            SetSortOrderParams(sortOrder);
             var userId = CurrentUserId;
             var costsJournal =
                 db.CostsJournal.Include(c => c.Category)
                     .Include(c => c.SubCategory)
-                    .Where(c => c.User.Id == userId)
-                    .OrderByDescending(c => c.Date);
+                    .Where(c => c.User.Id == userId);
+            switch (sortOrder)
+            {
+                case "date" :
+                    costsJournal = costsJournal.OrderBy(c => c.Date);
+                    break;
+                case "category" :
+                    costsJournal = costsJournal.OrderBy(c => c.Category.Name);
+                    break;
+                case "category_desc" :
+                    costsJournal = costsJournal.OrderByDescending(c => c.Category.Name);
+                    break;
+                case "subcategory":
+                    costsJournal = costsJournal.OrderBy(c => c.SubCategory.Name);
+                    break;
+                case "subcategory_desc":
+                    costsJournal = costsJournal.OrderByDescending(c => c.SubCategory.Name);
+                    break;
+                default:
+                    costsJournal = costsJournal.OrderByDescending(c => c.Date);
+                    break;
+            }
             return View(costsJournal.ToPagedList(page ?? 1, _pageSize));
+        }
+
+        private void SetSortOrderParams(string sortOrder)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.DateSortParam = String.IsNullOrEmpty(sortOrder) ? "date" : "";
+            ViewBag.CategorySortParam = sortOrder == "category" ? "category_desc" : "category";
+            ViewBag.SubCategorySortParam = sortOrder == "subcategory" ? "subcategory_desc" : "subcategory";
         }
 
         private string CurrentUserId
