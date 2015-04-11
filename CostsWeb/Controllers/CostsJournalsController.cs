@@ -28,14 +28,43 @@ namespace CostsWeb.Controllers
         }
 
         // GET: CostsJournals
-        public ActionResult Index(int? page, string sortOrder)
+        public ActionResult Index(int? page, string sortOrder, DateTime? dateFrom, DateTime? dateTo,
+            DateTime? currentDateFrom, DateTime? currentDateTo, int? categoryId, int? subCategoryId, string note,
+            int? currentCategoryId, int? currentSubCategoryid, string currentNote)
         {
             SetSortOrderParams(sortOrder);
+            if ((dateFrom != null) || (dateTo != null) || (categoryId != null) || 
+                (subCategoryId != null) || !string.IsNullOrEmpty(note))
+            {
+                page = 1;
+            }
+            dateFrom = dateFrom ?? currentDateFrom;
+            dateTo = dateTo ?? currentDateTo;
+            categoryId = categoryId ?? currentCategoryId;
+            subCategoryId = subCategoryId ?? currentSubCategoryid;
+            note = note ?? currentNote;
+            SetFilter(dateFrom, dateTo, categoryId, subCategoryId, note);            
             var userId = CurrentUserId;
             var costsJournal =
                 db.CostsJournal.Include(c => c.Category)
                     .Include(c => c.SubCategory)
                     .Where(c => c.User.Id == userId);
+            if ((dateFrom != null) && (dateTo != null))
+            {
+                costsJournal = costsJournal.Where(c => c.Date >= dateFrom && c.Date <= dateTo);
+            }
+            if (categoryId != null)
+            {
+                costsJournal = costsJournal.Where(c => c.CategoryId == categoryId);
+            }
+            if (subCategoryId != null)
+            {
+                costsJournal = costsJournal.Where(c => c.SubCategoryId == subCategoryId);
+            }
+            if (!string.IsNullOrWhiteSpace(note))
+            {
+                costsJournal = costsJournal.Where(c => c.Note.ToLower().Contains(note));
+            }
             switch (sortOrder)
             {
                 case "date" :
@@ -58,6 +87,17 @@ namespace CostsWeb.Controllers
                     break;
             }
             return View(costsJournal.ToPagedList(page ?? 1, _pageSize));
+        }
+
+        private void SetFilter(DateTime? dateFrom, DateTime? dateTo, int? categoryId, int? subCategoryId, string note)
+        {
+            ViewBag.CurrentDateFrom = dateFrom;
+            ViewBag.CurrentDateTo = dateTo;
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name", categoryId);
+            ViewBag.SubCategories = new SelectList(db.Categories, "Id", "Name", subCategoryId);
+            ViewBag.CurrentCategoryId = categoryId;
+            ViewBag.CurrentSubCategoryId = subCategoryId;
+            ViewBag.CurrentNote = note;
         }
 
         private void SetSortOrderParams(string sortOrder)
