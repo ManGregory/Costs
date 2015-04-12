@@ -22,6 +22,12 @@ namespace CostsWeb.Controllers
             get { return User.Identity.GetUserId(); }
         }
 
+        private bool CheckUserId(int recordId)
+        {
+            var category = db.Categories.Find(recordId);
+            return ((category != null) && (category.UserId == CurrentUserId));
+        }
+
         // GET: Categories
         public ActionResult Index()
         {
@@ -37,7 +43,7 @@ namespace CostsWeb.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Category category = db.Categories.Find(id);
-            if (category == null)
+            if ((category == null) || !CheckUserId(id.Value))
             {
                 return HttpNotFound();
             }
@@ -76,7 +82,7 @@ namespace CostsWeb.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Category category = db.Categories.Find(id);
-            if (category == null)
+            if ((category == null) || !CheckUserId(id.Value))
             {
                 return HttpNotFound();
             }
@@ -92,6 +98,7 @@ namespace CostsWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                category.UserId = CurrentUserId;
                 db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index").Success("Данные успешно сохранены");
@@ -107,7 +114,7 @@ namespace CostsWeb.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Category category = db.Categories.Find(id);
-            if (category == null)
+            if ((category == null) || !CheckUserId(id.Value))
             {
                 return HttpNotFound();
             }

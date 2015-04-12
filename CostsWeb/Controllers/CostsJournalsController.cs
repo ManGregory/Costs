@@ -21,6 +21,12 @@ namespace CostsWeb.Controllers
         private CostsContext db = new CostsContext();
         private int _pageSize = 30;
 
+        private bool CheckUserId(int recordId)
+        {
+            var costsJournal = db.CostsJournal.Find(recordId);
+            return ((costsJournal != null) && (costsJournal.UserId == CurrentUserId));
+        }
+
         private void SetViewBag(int? categoryId = null, int? subCategoryId = null)
         {
             ViewBag.CategoryId = new SelectList(db.Categories.Where(c => c.UserId == CurrentUserId), "Id", "Name", categoryId);
@@ -122,7 +128,7 @@ namespace CostsWeb.Controllers
             }
             CostsJournal costsJournal =
                 db.CostsJournal.Include(c => c.Category).Include(c => c.SubCategory).FirstOrDefault(c => c.Id == id);
-            if (costsJournal == null)
+            if ((costsJournal == null) || !CheckUserId(id.Value))
             {
                 return HttpNotFound();
             }
@@ -162,7 +168,7 @@ namespace CostsWeb.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CostsJournal costsJournal = db.CostsJournal.Find(id);
-            if (costsJournal == null)
+            if ((costsJournal == null) || !CheckUserId(id.Value))
             {
                 return HttpNotFound();
             }
@@ -179,6 +185,7 @@ namespace CostsWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                costsJournal.UserId = CurrentUserId;
                 db.Entry(costsJournal).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index").Success("Данные успешно сохраненны"); ;
@@ -196,7 +203,7 @@ namespace CostsWeb.Controllers
             }
             CostsJournal costsJournal =
                 db.CostsJournal.Include(c => c.Category).Include(c => c.SubCategory).FirstOrDefault(c => c.Id == id);
-            if (costsJournal == null)
+            if ((costsJournal == null) || !CheckUserId(id.Value))
             {
                 return HttpNotFound();
             }
