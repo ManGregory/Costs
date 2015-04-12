@@ -6,96 +6,42 @@
 <h2>Журнал расходов</h2>
 <p>
     @Html.ActionLink("Добавить", "Create")
-    @using (Html.BeginForm("Index", "CostsJournals", FormMethod.Get, new { @class = "" }))
-    {
-        
-            <div class="form-group col-lg-12 form-inline">
-                <label for="dateFrom">
-                    Расходы с
-                </label>
-                @if (ViewBag.CurrentDateFrom == null)
-                {
-                    <input class="form-control" type="date" name="dateFrom" id="dateFrom" />
-                }
-                else
-                {
-                    <input class="form-control" type="date" name="dateFrom" id="dateFrom" value=@ViewBag.CurrentDateFrom.ToString("yyyy-MM-dd") />
-                }
-                
-                <label for="dateFrom">
-                    по
-                </label>
-                @if (ViewBag.CurrentDateTo == null)
-                {
-                    <input class="form-control" type="date" name="dateTo" id="dateTo" />
-                }
-                else
-                {
-                    <input class="form-control" type="date" name="dateTo" id="dateTo" value=@ViewBag.CurrentDateTo.ToString("yyyy-MM-dd") />
-                }
-                
-            </div>
-
-        <div class="form-inline">
-            <div class="form-group col-lg-3">
-                <label for="CategoryId" class="control-label">
-                    Категория:
-                </label>
-                @Html.DropDownList("CategoryId", ViewBag.Categories as SelectList, string.Empty, new { @class = "form-control" })
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="SubCategoryId">
-                    Подкатегория:
-                </label>
-                @Html.DropDownList("SubCategoryId", ViewBag.SubCategories as SelectList, string.Empty, new { @class = "form-control" })
-            </div>
-            <div class="form-group col-lg-3">
-                <label for="currentNote">
-                    Примечание:
-                </label>
-                <input type="text" class="form-control" id="currentNote" name="note" value="@ViewBag.CurrentNote" />
-            </div>
-            <div class="form-group col-lg-3">
-                <input type="submit" class="btn btn-default" value="Поиск" />
-            </div>
-        </div>
-    }
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.ActionLink("Категория", "Index", new
-               {
-                   sortOrder = ViewBag.CategorySortParam,
-                   currentDateFrom = ViewBag.CurrentDateFrom,
-                   currentDateTo = ViewBag.CurrentDateTo,
-                   currentCategoryId = ViewBag.CurrentCategoryId,
-                   currentSubCategoryId = ViewBag.CurrentSubCategoryId,
-                   currentNote = ViewBag.CurrentNote
-               })
+            {
+                sortOrder = ViewBag.CategorySortParam,
+                currentDateFrom = ViewBag.CurrentDateFrom,
+                currentDateTo = ViewBag.CurrentDateTo,
+                currentCategoryId = ViewBag.CurrentCategoryId,
+                currentSubCategoryId = ViewBag.CurrentSubCategoryId,
+                currentNote = ViewBag.CurrentNote
+            })
         </th>
 
         <th>
             @Html.ActionLink("Подкатегория", "Index", new
-               {
-                   sortOrder = ViewBag.SubCategorySortParam,
-                   currentDateFrom = ViewBag.CurrentDateFrom,
-                   currentDateTo = ViewBag.CurrentDateTo,
-                   currentCategoryId = ViewBag.CurrentCategoryId,
-                   currentSubCategoryId = ViewBag.CurrentSubCategoryId,
-                   currentNote = ViewBag.CurrentNote
-               })
+            {
+                sortOrder = ViewBag.SubCategorySortParam,
+                currentDateFrom = ViewBag.CurrentDateFrom,
+                currentDateTo = ViewBag.CurrentDateTo,
+                currentCategoryId = ViewBag.CurrentCategoryId,
+                currentSubCategoryId = ViewBag.CurrentSubCategoryId,
+                currentNote = ViewBag.CurrentNote
+            })
         </th>
         <th>
             @Html.ActionLink("Дата", "Index", new
-               {
-                   sortOrder = ViewBag.DateSortParam,
-                   currentDateFrom = ViewBag.CurrentDateFrom,
-                   currentDateTo = ViewBag.CurrentDateTo,
-                   currentCategoryId = ViewBag.CurrentCategoryId,
-                   currentSubCategoryId = ViewBag.CurrentSubCategoryId,
-                   currentNote = ViewBag.CurrentNote
-               })
+            {
+                sortOrder = ViewBag.DateSortParam,
+                currentDateFrom = ViewBag.CurrentDateFrom,
+                currentDateTo = ViewBag.CurrentDateTo,
+                currentCategoryId = ViewBag.CurrentCategoryId,
+                currentSubCategoryId = ViewBag.CurrentSubCategoryId,
+                currentNote = ViewBag.CurrentNote
+            })
         </th>
         <th>
             Сумма
@@ -104,6 +50,43 @@
             Примечание
         </th>
         <th></th>
+    </tr>
+    <tr>
+@using (Html.BeginForm("Index", "CostsJournals", FormMethod.Get, new {@role = "form", @class = ""}))
+{
+    <th>          
+        @Html.DropDownList("CategoryId", ViewBag.Categories as SelectList, string.Empty, new {@class = "form-control"})            
+    </th>
+    <th>
+        @Html.DropDownList("SubCategoryId", ViewBag.SubCategories as SelectList, string.Empty, new {@class = "form-control"})   
+    </th>
+    <th>
+        @if (ViewBag.CurrentDateFrom == null)
+        {
+            <input class="form-control" type="date" name="dateFrom" id="dateFrom" />
+        }
+        else
+        {
+            <input class="form-control" type="date" name="dateFrom" id="dateFrom" value=@ViewBag.CurrentDateFrom.ToString("yyyy-MM-dd") />
+        }       
+    </th>
+    <th>
+        @if (ViewBag.CurrentDateTo == null)
+        {
+            <input class="form-control" type="date" name="dateTo" id="dateTo" />
+        }
+        else
+        {
+            <input class="form-control" type="date" name="dateTo" id="dateTo" value=@ViewBag.CurrentDateTo.ToString("yyyy-MM-dd") />
+        }
+    </th>
+    <th>
+        <input type="text" class="form-control col-sm-3" id="currentNote" name="note" value="@ViewBag.CurrentNote" />    
+    </th>
+    <th>
+        <input type="submit" class="btn btn-default" value="Поиск" />
+    </th>
+}
     </tr>
     @foreach (var item in Model)
     {
@@ -124,9 +107,9 @@
                 @Html.DisplayFor(modelItem => item.Note)
             </td>
             <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Просмотр", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                @Html.ActionLink(" ", "Edit", new { id = item.Id }, new {@class="glyphicon glyphicon-edit"})
+                @Html.ActionLink(" ", "Details", new { id = item.Id }, new { @class = "glyphicon glyphicon-list-alt" }) 
+                @Html.ActionLink(" ", "Delete", new { id = item.Id }, new { @class = "glyphicon glyphicon-trash" })
             </td>
         </tr>
     }
