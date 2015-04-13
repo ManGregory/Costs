@@ -7,7 +7,7 @@ namespace CostsWeb.Models
     public class CostsContext : IdentityDbContext<ApplicationUser>
     {
         public CostsContext() : base("DefaultConnection")
-        {            
+        {
         }
 
         public DbSet<Category> Categories { get; set; }
