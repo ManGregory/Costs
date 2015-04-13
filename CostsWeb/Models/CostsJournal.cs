@@ -43,5 +43,7 @@ namespace CostsWeb.Models
 
         [ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

@@ -54,7 +54,7 @@ namespace CostsWeb.Controllers
             var costsJournal =
                 db.CostsJournal.Include(c => c.Category)
                     .Include(c => c.SubCategory)
-                    .Where(c => c.User.Id == userId);
+                    .Where(c => (c.User.Id == userId) && !c.IsDeleted);
             if ((dateFrom != null) && (dateTo != null))
             {
                 costsJournal = costsJournal.Where(c => c.Date >= dateFrom && c.Date <= dateTo);
@@ -154,7 +154,8 @@ namespace CostsWeb.Controllers
                 costsJournal.UserId = CurrentUserId;
                 db.CostsJournal.Add(costsJournal);
                 db.SaveChanges();
-                return RedirectToAction("Create").Success("Запись успешно создана");
+                return RedirectToAction("Create")
+                    .Success(this.CreateFlashMessage("Запись успешно создана", costsJournal.Id));
             }
             SetViewBag(costsJournal.CategoryId, costsJournal.SubCategoryId);
             return View(costsJournal);
@@ -188,7 +189,8 @@ namespace CostsWeb.Controllers
                 costsJournal.UserId = CurrentUserId;
                 db.Entry(costsJournal).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index").Success("Данные успешно сохраненны"); ;
+                return RedirectToAction("Index").Success(
+                    this.CreateFlashMessage("Данные успешно сохранены", costsJournal.Id));
             }
             SetViewBag(costsJournal.CategoryId, costsJournal.SubCategoryId);
             return View(costsJournal);
@@ -216,9 +218,36 @@ namespace CostsWeb.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CostsJournal costsJournal = db.CostsJournal.Find(id);
-            db.CostsJournal.Remove(costsJournal);
+            if ((costsJournal == null) || !CheckUserId(id))
+            {
+                return HttpNotFound();
+            }
+            var flashMessage = costsJournal.IsDeleted
+                ? "Запись успешно удалена"
+                : this.CreateFlashMessage("Запись успешно удалена", costsJournal.Id);
+            if (costsJournal.IsDeleted)
+            {
+                db.CostsJournal.Remove(costsJournal);   
+            }
+            else
+            {
+                costsJournal.IsDeleted = true;
+            }
             db.SaveChanges();
-            return RedirectToAction("Index").Success("Данные успешно удалены");
+            return RedirectToAction("Index").Success(flashMessage);                
+        }
+
+        public ActionResult UndoDelete(int id)
+        {
+            var costsJournal = db.CostsJournal.Find(id);
+            if ((costsJournal == null) || !CheckUserId(id))
+            {
+                return HttpNotFound();
+            }
+            costsJournal.IsDeleted = false;
+            db.SaveChanges();
+            return
+                RedirectToAction("Index").Success(this.CreateFlashMessage("Запись успешно восстановлена", costsJournal.Id));
         }
 
         protected override void Dispose(bool disposing)

@@ -173,10 +173,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ControllerExtension.cs" />
     <Compile Include="Helper\FlashMessageExtension.cs" />
+    <Compile Include="Helper\FlashMessageHelper.cs" />
     <Compile Include="Migrations\201504041240231_init.cs" />
     <Compile Include="Migrations\201504041240231_init.Designer.cs">
       <DependentUpon>201504041240231_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504131550537_add IsDeleted field.cs" />
+    <Compile Include="Migrations\201504131550537_add IsDeleted field.Designer.cs">
+      <DependentUpon>201504131550537_add IsDeleted field.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -275,6 +281,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201504041240231_init.resx">
       <DependentUpon>201504041240231_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504131550537_add IsDeleted field.resx">
+      <DependentUpon>201504131550537_add IsDeleted field.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

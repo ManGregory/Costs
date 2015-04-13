@@ -26,6 +26,8 @@ namespace CostsWeb.Models
         [Display(Name="Название категории")]
         public string Name { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         private static readonly string[] _defaultCategoryNames =
         {
             "Ежедневные расходы",

@@ -32,7 +32,7 @@ namespace CostsWeb.Controllers
         public ActionResult Index()
         {
             var userId = CurrentUserId;
-            return View(db.Categories.Where(c => c.UserId == userId).ToList());
+            return View(db.Categories.Where(c => (c.UserId == userId) && !c.IsDeleted).ToList());
         }
 
         // GET: Categories/Details/5
@@ -66,9 +66,10 @@ namespace CostsWeb.Controllers
             if (ModelState.IsValid)
             {
                 category.UserId = CurrentUserId;
+                category.IsDeleted = false;
                 db.Categories.Add(category);
                 db.SaveChanges();
-                return RedirectToAction("Create").Success("Запись успешно добавлена");
+                return RedirectToAction("Create").Success(this.CreateFlashMessage("Запись успешно добавлена", category.Id));
             }
 
             return View(category);
@@ -101,7 +102,7 @@ namespace CostsWeb.Controllers
                 category.UserId = CurrentUserId;
                 db.Entry(category).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index").Success("Данные успешно сохранены");
+                return RedirectToAction("Index").Success(this.CreateFlashMessage("Данные успешно удалены", category.Id));
             }
             return View(category);
         }
@@ -127,9 +128,36 @@ namespace CostsWeb.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
+            if ((category == null) || !CheckUserId(id))
+            {
+                return HttpNotFound();
+            }
+            var flashMessage = category.IsDeleted
+                ? "Запись успешно удалена"
+                : this.CreateFlashMessage("Запись успешно удалена", category.Id);
+            if (category.IsDeleted)
+            {
+                db.Categories.Remove(category);
+            }
+            else
+            {
+                category.IsDeleted = true;
+            }
             db.SaveChanges();
-            return RedirectToAction("Index").Success("Запись успешно удалена");
+            return RedirectToAction("Index").Success(flashMessage);
+        }
+
+        public ActionResult UndoDelete(int id)
+        {
+            Category category = db.Categories.Find(id);
+            if ((category == null) || !CheckUserId(id))
+            {
+                return HttpNotFound();
+            }
+            category.IsDeleted = false;
+            db.SaveChanges();
+            return
+                RedirectToAction("Index").Success(this.CreateFlashMessage("Запись успешно восстановлена", category.Id));
         }
 
         protected override void Dispose(bool disposing)

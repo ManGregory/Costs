@@ -1,6 +1,6 @@
 ﻿$.fn.flashMessage = function (options) {
     var target = this;
-    options = $.extend({}, options, { timeout: 5000, alert: 'info' });
+    options = $.extend({}, options, { timeout: 15000, alert: 'info' });
 
     if (!options.message) {
         setFlashMessageFromCookie(options);
