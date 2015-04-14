@@ -9,7 +9,7 @@ namespace CostsWeb.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(CostsWeb.Models.CostsContext context)
