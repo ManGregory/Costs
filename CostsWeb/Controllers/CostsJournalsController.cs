@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using CostsWeb.Helper;
 using CostsWeb.Models;
@@ -248,6 +249,18 @@ namespace CostsWeb.Controllers
             db.SaveChanges();
             return
                 RedirectToAction("Index").Success(this.CreateFlashMessage("Запись успешно восстановлена", costsJournal.Id));
+        }
+
+        public ActionResult GetLastJournalForCategory(int? categoryId, int? subCategoryId)
+        {
+            var lastJournal =
+                db.CostsJournal.OrderByDescending(c => c.Date)
+                    .FirstOrDefault(c => (c.CategoryId == categoryId) && (c.SubCategoryId == subCategoryId) && (c.UserId == CurrentUserId));
+            if (lastJournal != null)
+            {
+                return Json(new {lastJournal.Note, lastJournal.Sum}, JsonRequestBehavior.AllowGet);
+            }
+            return null;
         }
 
         protected override void Dispose(bool disposing)
