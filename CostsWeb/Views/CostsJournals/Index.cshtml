@@ -7,6 +7,27 @@
 <p>
     @Html.ActionLink("Добавить", "Create")
 </p>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#collapse" href="#collapse-one">
+                    <b>Итоги</b>
+                </a>
+            </h4>
+        </div>
+        <div id="collapse-one" class="panel-collapse collapse">
+            <div class="panel-body">
+                <p>За @DateTime.Now.ToString("MMMM").ToLower() (фильтр): <b>@(((decimal)ViewBag.SummaryCurrentMonthFiltered).ToString("N"))</b></p>
+                <p>За @DateTime.Now.ToString("MMMM").ToLower(): <b>@(((decimal)ViewBag.SummaryCurrentMonth).ToString("N"))</b></p>
+                <p>По фильтру: <b>@(((decimal)ViewBag.SummaryFiltered).ToString("N"))</b></p>
+                <p>За все время: <b>@(((decimal)ViewBag.Summary).ToString("N"))</b></p>
+            </div>
+        </div>
+    </div>
+
+
 <table class="table">
     <tr>
         <th>

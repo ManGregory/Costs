@@ -93,7 +93,18 @@ namespace CostsWeb.Controllers
                     costsJournal = costsJournal.OrderByDescending(c => c.Date);
                     break;
             }
+            SetSummary(costsJournal);
             return View(costsJournal.ToPagedList(page ?? 1, _pageSize));
+        }
+
+        private void SetSummary(IQueryable<CostsJournal> costsJournal)
+        {
+            ViewBag.SummaryCurrentMonthFiltered = 
+                costsJournal.Where(s => s.Date.Value.Month == DateTime.Now.Month).Sum(s => s.Sum);
+            ViewBag.SummaryCurrentMonth =
+                db.CostsJournal.Where(s => s.Date.Value.Month == DateTime.Now.Month).Sum(s => s.Sum);
+            ViewBag.SummaryFiltered = costsJournal.Sum(s => s.Sum);
+            ViewBag.Summary = db.CostsJournal.Sum(s => s.Sum);
         }
 
         private void SetFilter(DateTime? dateFrom, DateTime? dateTo, int? categoryId, int? subCategoryId, string note)
