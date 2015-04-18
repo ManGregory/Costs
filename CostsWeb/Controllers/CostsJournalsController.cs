@@ -99,10 +99,16 @@ namespace CostsWeb.Controllers
 
         private void SetSummary(IQueryable<CostsJournal> costsJournal)
         {
+            Func<CostsJournal,bool> checkMonthAndYear =
+                (s => s.Date != null && ((s.Date.Value.Month == DateTime.Now.Month) && (s.Date.Value.Year == DateTime.Now.Year)));
             ViewBag.SummaryCurrentMonthFiltered = 
-                costsJournal.Where(s => s.Date.Value.Month == DateTime.Now.Month).Sum(s => s.Sum);
+                costsJournal
+                    .Where(checkMonthAndYear)
+                    .Sum(s => s.Sum);
             ViewBag.SummaryCurrentMonth =
-                db.CostsJournal.Where(s => s.Date.Value.Month == DateTime.Now.Month).Sum(s => s.Sum);
+                db.CostsJournal
+                    .Where(checkMonthAndYear)
+                    .Sum(s => s.Sum);
             ViewBag.SummaryFiltered = costsJournal.Sum(s => s.Sum);
             ViewBag.Summary = db.CostsJournal.Sum(s => s.Sum);
         }
