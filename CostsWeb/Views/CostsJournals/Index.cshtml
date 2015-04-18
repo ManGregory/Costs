@@ -1,4 +1,6 @@
 ﻿@model PagedList.IPagedList<CostsWeb.Models.CostsJournal>
+@using System.Collections.Specialized
+@using System.Globalization
 @using PagedList.Mvc
 @{
     ViewBag.Title = "Журнал расходов";
@@ -7,134 +9,146 @@
 <p>
     @Html.ActionLink("Добавить", "Create")
 </p>
-
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" data-parent="#collapse" href="#collapse-one">
-                    <b>Итоги</b>
-                </a>
-            </h4>
-        </div>
-        <div id="collapse-one" class="panel-collapse collapse">
-            <div class="panel-body">
-                <p>За @DateTime.Now.ToString("MMMM").ToLower() (фильтр): <b>@(((decimal)ViewBag.SummaryCurrentMonthFiltered).ToString("N"))</b></p>
-                <p>За @DateTime.Now.ToString("MMMM").ToLower(): <b>@(((decimal)ViewBag.SummaryCurrentMonth).ToString("N"))</b></p>
-                <p>По фильтру: <b>@(((decimal)ViewBag.SummaryFiltered).ToString("N"))</b></p>
-                <p>За все время: <b>@(((decimal)ViewBag.Summary).ToString("N"))</b></p>
-            </div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#collapse" href="#collapse-one">
+                <b>Итоги</b>
+            </a>
+        </h4>
+    </div>
+    <div id="collapse-one" class="panel-collapse collapse">
+        <div class="panel-body">
+            <p>За @DateTime.Now.ToString("MMMM", CultureInfo.GetCultureInfoByIetfLanguageTag("ru")).ToLower() (фильтр): <b>@(((decimal)ViewBag.SummaryCurrentMonthFiltered).ToString("N", CultureInfo.GetCultureInfoByIetfLanguageTag("ru")))</b></p>
+            <p>За @DateTime.Now.ToString("MMMM", CultureInfo.GetCultureInfoByIetfLanguageTag("ru")).ToLower(): <b>@(((decimal)ViewBag.SummaryCurrentMonth).ToString("N", CultureInfo.GetCultureInfoByIetfLanguageTag("ru")))</b></p>
+            <p>По фильтру: <b>@(((decimal)ViewBag.SummaryFiltered).ToString("N", CultureInfo.GetCultureInfoByIetfLanguageTag("ru")))</b></p>
+            <p>За все время: <b>@(((decimal)ViewBag.Summary).ToString("N", CultureInfo.GetCultureInfoByIetfLanguageTag("ru")))</b></p>
         </div>
     </div>
+</div>
 
+<div class="panel panel-primary filterable">
+    <div class="panel-heading">
+        <h3 class="panel-title"><b>Расходы</b></h3>
+        <div class="pull-right">
+            <button class="btn btn-default btn-xs btn-filter">
+                <span class="glyphicon glyphicon-filter">Фильтр</span>
+            </button>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr class="filters hidden">
+                @using (Html.BeginForm("Index", "CostsJournals", FormMethod.Get, new { @role = "form", @class = "" }))
+                {
+                    <th>
+                        @Html.DropDownList("CategoryId", ViewBag.Categories as SelectList, string.Empty, new { @class = "form-control" })
+                    </th>
+                    <th>
+                        @Html.DropDownList("SubCategoryId", ViewBag.SubCategories as SelectList, string.Empty, new { @class = "form-control" })
+                    </th>
+                    <th>
+                        @if (ViewBag.CurrentDateFrom == null)
+                        {
+                            <input class="form-control" type="date" name="dateFrom" id="dateFrom" />
+                        }
+                        else
+                        {
+                            <input class="form-control" type="date" name="dateFrom" id="dateFrom" value=@ViewBag.CurrentDateFrom.ToString("yyyy-MM-dd") />
+                        }
+                    </th>
+                    <th>
+                        @if (ViewBag.CurrentDateTo == null)
+                        {
+                            <input class="form-control" type="date" name="dateTo" id="dateTo" />
+                        }
+                        else
+                        {
+                            <input class="form-control" type="date" name="dateTo" id="dateTo" value=@ViewBag.CurrentDateTo.ToString("yyyy-MM-dd") />
+                        }
+                    </th>
+                    <th>
+                        <input type="text" class="form-control col-sm-3" id="currentNote" name="note" value="@ViewBag.CurrentNote" />
+                    </th>
+                    <th>
+                        <input type="submit" class="btn btn-default" value="Поиск" />
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>
+                    @Html.ActionLink("Категория", "Index", new
+                {
+                    sortOrder = ViewBag.CategorySortParam,
+                    currentDateFrom = ViewBag.CurrentDateFrom,
+                    currentDateTo = ViewBag.CurrentDateTo,
+                    currentCategoryId = ViewBag.CurrentCategoryId,
+                    currentSubCategoryId = ViewBag.CurrentSubCategoryId,
+                    currentNote = ViewBag.CurrentNote
+                })
+                </th>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("Категория", "Index", new
+                <th>
+                    @Html.ActionLink("Подкатегория", "Index", new
+                {
+                    sortOrder = ViewBag.SubCategorySortParam,
+                    currentDateFrom = ViewBag.CurrentDateFrom,
+                    currentDateTo = ViewBag.CurrentDateTo,
+                    currentCategoryId = ViewBag.CurrentCategoryId,
+                    currentSubCategoryId = ViewBag.CurrentSubCategoryId,
+                    currentNote = ViewBag.CurrentNote
+                })
+                </th>
+                <th>
+                    @Html.ActionLink("Дата", "Index", new
+                {
+                    sortOrder = ViewBag.DateSortParam,
+                    currentDateFrom = ViewBag.CurrentDateFrom,
+                    currentDateTo = ViewBag.CurrentDateTo,
+                    currentCategoryId = ViewBag.CurrentCategoryId,
+                    currentSubCategoryId = ViewBag.CurrentSubCategoryId,
+                    currentNote = ViewBag.CurrentNote
+                })
+                </th>
+                <th>
+                    Сумма
+                </th>
+                <th>
+                    Примечание
+                </th>
+                <th></th>
+            </tr>            
+            @foreach (var item in Model)
             {
-                sortOrder = ViewBag.CategorySortParam,
-                currentDateFrom = ViewBag.CurrentDateFrom,
-                currentDateTo = ViewBag.CurrentDateTo,
-                currentCategoryId = ViewBag.CurrentCategoryId,
-                currentSubCategoryId = ViewBag.CurrentSubCategoryId,
-                currentNote = ViewBag.CurrentNote
-            })
-        </th>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubCategory.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date, "ShortDate")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>
+                    <td>
+                        @Html.ActionLink(" ", "Edit", new { id = item.Id }, new { @class = "glyphicon glyphicon-edit" })
+                        @Html.ActionLink(" ", "Details", new { id = item.Id }, new { @class = "glyphicon glyphicon-list-alt" })
+                        @Html.ActionLink(" ", "Delete", new { id = item.Id }, new { @class = "glyphicon glyphicon-trash" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-        <th>
-            @Html.ActionLink("Подкатегория", "Index", new
-            {
-                sortOrder = ViewBag.SubCategorySortParam,
-                currentDateFrom = ViewBag.CurrentDateFrom,
-                currentDateTo = ViewBag.CurrentDateTo,
-                currentCategoryId = ViewBag.CurrentCategoryId,
-                currentSubCategoryId = ViewBag.CurrentSubCategoryId,
-                currentNote = ViewBag.CurrentNote
-            })
-        </th>
-        <th>
-            @Html.ActionLink("Дата", "Index", new
-            {
-                sortOrder = ViewBag.DateSortParam,
-                currentDateFrom = ViewBag.CurrentDateFrom,
-                currentDateTo = ViewBag.CurrentDateTo,
-                currentCategoryId = ViewBag.CurrentCategoryId,
-                currentSubCategoryId = ViewBag.CurrentSubCategoryId,
-                currentNote = ViewBag.CurrentNote
-            })
-        </th>
-        <th>
-            Сумма
-        </th>
-        <th>
-            Примечание
-        </th>
-        <th></th>
-    </tr>
-    <tr>
-@using (Html.BeginForm("Index", "CostsJournals", FormMethod.Get, new {@role = "form", @class = ""}))
-{
-    <th>          
-        @Html.DropDownList("CategoryId", ViewBag.Categories as SelectList, string.Empty, new {@class = "form-control"})            
-    </th>
-    <th>
-        @Html.DropDownList("SubCategoryId", ViewBag.SubCategories as SelectList, string.Empty, new {@class = "form-control"})   
-    </th>
-    <th>
-        @if (ViewBag.CurrentDateFrom == null)
-        {
-            <input class="form-control" type="date" name="dateFrom" id="dateFrom" />
-        }
-        else
-        {
-            <input class="form-control" type="date" name="dateFrom" id="dateFrom" value=@ViewBag.CurrentDateFrom.ToString("yyyy-MM-dd") />
-        }       
-    </th>
-    <th>
-        @if (ViewBag.CurrentDateTo == null)
-        {
-            <input class="form-control" type="date" name="dateTo" id="dateTo" />
-        }
-        else
-        {
-            <input class="form-control" type="date" name="dateTo" id="dateTo" value=@ViewBag.CurrentDateTo.ToString("yyyy-MM-dd") />
-        }
-    </th>
-    <th>
-        <input type="text" class="form-control col-sm-3" id="currentNote" name="note" value="@ViewBag.CurrentNote" />    
-    </th>
-    <th>
-        <input type="submit" class="btn btn-default" value="Поиск" />
-    </th>
-}
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubCategory.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date, "ShortDate")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-            <td>
-                @Html.ActionLink(" ", "Edit", new { id = item.Id }, new {@class="glyphicon glyphicon-edit"})
-                @Html.ActionLink(" ", "Details", new { id = item.Id }, new { @class = "glyphicon glyphicon-list-alt" }) 
-                @Html.ActionLink(" ", "Delete", new { id = item.Id }, new { @class = "glyphicon glyphicon-trash" })
-            </td>
-        </tr>
-    }
-</table>
 <br />
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 @Html.PagedListPager(Model, page => Url.Action("Index",
@@ -148,3 +162,20 @@
         currentSubCategoryId = ViewBag.CurrentSubCategoryId,
         currentNote = ViewBag.CurrentNote
     }))
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.filterable .btn-filter').click(function () {                
+                var filters = $('.filters');
+                if (filters.hasClass('visible')) {
+                    filters.removeClass('visible');
+                    filters.addClass('hidden');
+                } else {
+                    filters.removeClass('hidden');
+                    filters.addClass('visible');
+                }
+            });
+        });
+    </script>
+}
