@@ -110,7 +110,7 @@ namespace CostsWeb.Controllers
                     .Where(checkMonthAndYear)
                     .Sum(s => s.Sum);
             ViewBag.SummaryFiltered = costsJournal.Sum(s => s.Sum);
-            ViewBag.Summary = db.CostsJournal.Sum(s => s.Sum);
+            ViewBag.Summary = db.CostsJournal.Where(s => !s.IsDeleted).Sum(s => s.Sum);
         }
 
         private void SetFilter(DateTime? dateFrom, DateTime? dateTo, int? categoryId, int? subCategoryId, string note)
