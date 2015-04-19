@@ -60,3 +60,8 @@ a.glyphicon {
 .filterable .filters input[disabled]:-ms-input-placeholder {
     color: #333;
 }
+
+.center-block {
+    margin: 0 auto;
+    text-align: center;
+}

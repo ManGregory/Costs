@@ -92,7 +92,7 @@ namespace CostsWeb.Controllers
                 default:
                     costsJournal = costsJournal.OrderByDescending(c => c.Date);
                     break;
-            }
+            }            
             SetSummary(costsJournal);
             return View(costsJournal.ToPagedList(page ?? 1, _pageSize));
         }
@@ -100,7 +100,7 @@ namespace CostsWeb.Controllers
         private void SetSummary(IQueryable<CostsJournal> costsJournal)
         {
             Func<CostsJournal,bool> checkMonthAndYear =
-                (s => s.Date != null && ((s.Date.Value.Month == DateTime.Now.Month) && (s.Date.Value.Year == DateTime.Now.Year)));
+                (s => s.Date != null && ((s.Date.Value.Month == DateTime.Now.Month) && (s.Date.Value.Year == DateTime.Now.Year) && !s.IsDeleted));
             ViewBag.SummaryCurrentMonthFiltered = 
                 costsJournal
                     .Where(checkMonthAndYear)
