@@ -1,4 +1,5 @@
-﻿@model dynamic
+﻿@using System.Web.UI.WebControls
+@model dynamic
 
 @{
     ViewBag.Title = "Отчеты";
@@ -7,8 +8,20 @@
 <h2>Отчеты</h2>
 
 <div class="row">
+    @using (Html.BeginForm("Index", "Dashboard", FormMethod.Get, new { @role = "form", @class = "form-inline" }))
+    {
+        @Html.DropDownList("ChartType", ViewBag.ChartTypes as SelectList)
+        <label for="dateFrom">С</label>
+        <input class="form-control" type="date" name="dateFrom" id="dateFrom" value=@TempData["DateFrom"]/>
+        <label for="dateTo">по</label>
+        <input class="form-control" type="date" name="dateTo" id="dateTo" value=@TempData["DateTo"] />
+        <input type="submit" value="reload"/>
+    }
+</div>
+
+<div class="row">
     <div class="col-xs-12 col-md-6 col-md-offset-3">
-        <img src="@Url.Action("Chart")" />
+        <img src="@Url.Action("Chart", "Dashboard")" />
     </div>
 </div>
 
