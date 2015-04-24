@@ -12,16 +12,19 @@
     {
         @Html.DropDownList("ChartType", ViewBag.ChartTypes as SelectList)
         <label for="dateFrom">С</label>
-        <input class="form-control" type="date" name="dateFrom" id="dateFrom" value=@TempData["DateFrom"]/>
+        <input class="form-control" type="date" name="dateFrom" id="dateFrom" value=@ViewData["DateFrom"]/>
         <label for="dateTo">по</label>
-        <input class="form-control" type="date" name="dateTo" id="dateTo" value=@TempData["DateTo"] />
+        <input class="form-control" type="date" name="dateTo" id="dateTo" value=@ViewData["DateTo"] />
         <input type="submit" value="reload"/>
     }
 </div>
 
 <div class="row">
-    <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <div class="col-xs-12 col-md-6">
         <img src="@Url.Action("Chart", "Dashboard")" />
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <img src="@Url.Action("MonthChart", "Dashboard")"/>
     </div>
 </div>
 
