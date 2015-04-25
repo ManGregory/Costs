@@ -38,10 +38,10 @@ namespace CostsWeb.Controllers
             return View();
         }
 
-        public ActionResult Chart()
+        public ActionResult Chart(DateTime? dateFrom)
         {
             var chartType = ViewData["CurrentChartType"] ?? "bar";
-            var dateFrom = ViewData["DateFrom"] == null ? new DateTime(DateTime.Now.Year, 1, 1) : (DateTime)TempData["DateFrom"];
+            //var dateFrom = ViewData["DateFrom"] == null ? new DateTime(DateTime.Now.Year, 1, 1) : (DateTime)TempData["DateFrom"];
             var dateTo = ViewData["DateTo"] == null ? DateTime.Now : (DateTime)TempData["DateTo"];
             var months =
                 System.Globalization.CultureInfo.GetCultureInfoByIetfLanguageTag("ru")
